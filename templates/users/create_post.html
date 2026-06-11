@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}Create Post{% endblock %}
+{% block content %}
+<div class="card">
+    <div class="card-title">✍️ Create a Post</div>
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form-group">
+            <label>{{ field.label }}</label>
+            {{ field }}
+        </div>
+        {% endfor %}
+        <button class="btn" type="submit">Publish</button>
+    </form>
+</div>
+{% if posts %}
+<div class="section-title">Your Posts <span class="badge">{{ posts.count }}</span></div>
+{% for post in posts %}
+<div class="post-card">
+    <div class="post-text">{{ post.text }}</div>
+    <div class="post-meta">🕐 {{ post.created_at|date:"M d, Y · H:i" }}</div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

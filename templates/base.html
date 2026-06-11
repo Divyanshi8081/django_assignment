@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django App{% endblock %}</title>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f0f4f8; color: #2d3748; min-height: 100vh; }
+        .navbar {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white; padding: 0 32px; height: 62px;
+            display: flex; align-items: center; justify-content: space-between;
+            box-shadow: 0 2px 12px rgba(102,126,234,0.4);
+        }
+        .brand { font-size: 18px; font-weight: 700; }
+        .nav-links a { color: rgba(255,255,255,0.9); text-decoration: none; margin-left: 18px; font-size: 14px; padding: 6px 14px; border-radius: 20px; transition: background .2s; }
+        .nav-links a:hover, .nav-links .active { background: rgba(255,255,255,0.2); }
+        .container { max-width: 700px; margin: 48px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 16px; padding: 36px 40px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); }
+        .card-title { font-size: 22px; font-weight: 700; margin-bottom: 28px; color: #2d3748; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px; color: #4a5568; margin-bottom: 6px; }
+        input, textarea { width: 100%; padding: 11px 14px; border: 1.5px solid #e2e8f0; border-radius: 8px; font-size: 15px; outline: none; transition: border-color .2s, box-shadow .2s; font-family: inherit; }
+        input:focus, textarea:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.15); }
+        textarea { resize: vertical; }
+        .field-error { font-size: 12px; color: #e53e3e; margin-top: 4px; }
+        .non-field-error { background: #fff5f5; border: 1px solid #feb2b2; color: #c53030; padding: 10px 14px; border-radius: 8px; font-size: 14px; margin-bottom: 16px; }
+        .btn { width: 100%; padding: 12px; background: linear-gradient(135deg, #667eea, #764ba2); color: white; border: none; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; margin-top: 6px; transition: opacity .2s, transform .1s; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .alt-link { text-align: center; margin-top: 20px; font-size: 14px; color: #718096; }
+        .alt-link a { color: #667eea; font-weight: 600; text-decoration: none; }
+        .messages { margin-bottom: 20px; }
+        .alert { padding: 12px 16px; border-radius: 8px; font-size: 14px; margin-bottom: 8px; }
+        .alert-success { background: #f0fff4; color: #276749; border: 1px solid #9ae6b4; }
+        .alert-error   { background: #fff5f5; color: #c53030;  border: 1px solid #feb2b2; }
+        .section-title { font-size: 18px; font-weight: 700; margin: 36px 0 16px; }
+        .post-card { background: white; border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 18px 20px; margin-bottom: 12px; transition: border-color .2s; }
+        .post-card:hover { border-color: #667eea; }
+        .post-text { font-size: 15px; line-height: 1.6; }
+        .post-meta { font-size: 12px; color: #a0aec0; margin-top: 10px; }
+        .badge { display: inline-block; background: #ebf4ff; color: #3182ce; font-size: 12px; font-weight: 600; padding: 2px 10px; border-radius: 20px; margin-left: 8px; }
+    </style>
+</head>
+<body>
+<nav class="navbar">
+    <span class="brand">🚀 Django Assignment</span>
+    <div class="nav-links">
+        {% if request.session.username %}
+            <span style="opacity:.85; font-size:14px">{{ request.session.full_name }}</span>
+            <a href="/users/logout/">Logout</a>
+        {% else %}
+            <a href="/users/login/">Login</a>
+            <a href="/users/register/">Register</a>
+        {% endif %}
+    </div>
+</nav>
+<div class="container">
+    {% if messages %}
+    <div class="messages">
+        {% for msg in messages %}
+        <div class="alert alert-{% if msg.tags == 'error' %}error{% else %}success{% endif %}">
+            {% if msg.tags == 'error' %}⚠️{% else %}✅{% endif %} {{ msg }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% block content %}{% endblock %}
+</div>
+</body>
+</html>
